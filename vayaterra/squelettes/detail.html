@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<INCLURE{fond=inc/head}>
+
+</head>
+
+<body>
+<INCLURE{fond=inc/header}>
+    <!-- Page Content -->
+    <div class="container">
+		<BOUCLE_article(ARTICLES){id_rubrique == 16}{id_article}>
+            <!-- Page Heading/Breadcrumbs -->
+            <div class="row">
+                <div class="col-sm-6">
+					<div class="row">
+						<div class="col-md-8">
+							<h2 class="section-heading"  style="margin-bottom: 0px;">#TITRE</h2>
+							<hr class="section-heading-spacer" style="margin-bottom: 0px;">
+						</div>
+						<div class="col-md-4 text-right" style="padding:20px 0 0 0;">
+							<a href="#"><span class="glyphicon glyphicon-heart icon-aime" aria-hidden="true"> </span></a>
+						</div>
+					</div>
+					<br>
+					<div class="col-md-12 text-justify">
+						<span class="css909090">#TEXTE</span>
+					</div>
+					<br>
+					<div class="col-md-12 text-justify">
+						<span class="css909090">Date de départ : [(#DATE_DEBUT|jour)] [(#DATE_DEBUT|nom_mois)] [(#DATE_DEBUT|annee)]</span>
+					</div>
+					<div class="col-md-12 text-justify">
+						<span class="css909090"> Date fin  : [(#DATE_FIN|jour)] [(#DATE_FIN|nom_mois)] [(#DATE_FIN|annee)]</span>
+					</div>
+					<div class="col-md-12 text-justify">
+						<span class="css909090"> Pays : Inde</span>
+					</div>
+					<div class="col-md-12 text-justify">
+						<span class="css909090"> Equipe :</span>
+						<div class="row">
+							<BOUCLE_auteur(AUTEURS){id_article} >
+								<div class="col-md-3  col-sm-6 col-xs-6" style="padding:0 5px;">
+									<div class="team-member">
+										[(#LOGO_AUTEUR|inserer_attribut{class, 'img-responsive img-circle'})]
+										<h5>#PRENOM #NOM_0</h5>
+										<a type="submit" href="spip.php?page=page_profil&id_auteur=#ID_AUTEUR" class="btn btn-sm" style="background:#3E3A51; color:#fff; ">Voir le profil</a>
+										<ul class="list-inline social-buttons">
+											<li class="col-md-6"><a href="#"><i class="fa fa-twitter"></i></a>
+											</li>
+											<li class="col-md-6"><a href="#"><i class="fa fa-facebook"></i></a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							 </BOUCLE_auteur>
+
+						</div>
+					</div>
+					<div class="separateur20"></div>
+					<div class="col-md-12 text-justify">
+						<div align="center">
+							<button type="submit" class="btn btn-lg" style="background:#3E3A51; color:#fff; width:250px;">Participer au projet</button>
+						</div>
+					</div>
+					<div class="separateur20"></div>
+					<div class="col-md-12 text-justify">
+						<div align="center">
+							<button type="submit" class="btn btn-lg" style="background:#3E3A51; color:#fff; width:250px;">Financer le projet</button>
+						</div>
+					<div class="separateur20"></div>
+					</div>
+                </div>
+                <div class="col-sm-6" style="padding:20px;">
+                    [(#LOGO_ARTICLE_RUBRIQUE|inserer_attribut{width, '100%'}|inserer_attribut{height, '100%'})]
+					<!-- Responsive calendar - START -->
+					<div class="separateur20"></div>
+					<div class="responsive-calendar">
+						<div class="controls">
+							<a class="pull-left" data-go="prev"><div class="btn btn-cal">&#9668;</div></a>
+							<h3> <span data-head-month></span> <span data-head-year></span></h3>
+							<a class="pull-right" data-go="next"><div class="btn btn-cal">&#9658;</div></a>
+						</div>
+						<div class="separateur20"></div>
+						<div class="day-headers">
+						  <div class="day header cssfff">Lun</div>
+						  <div class="day header cssfff">Mar</div>
+						  <div class="day header cssfff">Mer</div>
+						  <div class="day header cssfff">Jeu</div>
+						  <div class="day header cssfff">Ven</div>
+						  <div class="day header cssfff">Sam</div>
+						  <div class="day header cssfff">Dim</div>
+						</div>
+						<div class="days" data-group="days">
+						  
+						</div>
+						<script type="text/javascript">
+						  $(document).ready(function () {
+							$(".responsive-calendar").responsiveCalendar({
+							  time: '[(#DATE_DEBUT|annee)]-[(#DATE_DEBUT|mois)]',
+							  events: {
+							  	<?php
+							  		$result = sql_select('*', "spip_articles", "id_article = #ID_ARTICLE", '', '');
+
+									 $res = sql_fetch($result);
+							  			$date_debut = strtotime($res['date_debut']);
+							  			$date_fin = strtotime($res['date_fin']);
+
+										while ( $date_debut <= $date_fin) {
+											echo ('"'.date('Y-m-d', $date_debut).'": {},') ;
+											$date_debut = $date_debut + 86400 ;
+										}
+										echo ('"'.date('Y-m-d', $date_debut).'": {}}') ;
+
+							  	?>
+
+							});
+						  });
+						</script>
+
+					</div>
+					<!-- Responsive calendar - END -->
+
+                </div>
+            </div>
+            <!-- /.row -->
+            <!-- Portfolio Item Row -->
+            <div class="row">
+   				<h2 class="section-heading">Photos (150)</h2>
+   				<div class="separateur20"></div>
+						<BOUCLE_img1(DOCUMENTS){id_article}{extension==jpg|png|gif}>
+			                <div class="col-md-3 col-xs-6" style="margin-bottom:15px;">
+								<a href="#URL_DOCUMENT" data-toggle="lightbox" data-gallery="multiimages">
+                                	<img src="#URL_DOCUMENT" class="img-responsive img-rounded">
+                            	</a>
+			                </div>
+						 </BOUCLE_img1>
+
+					 <script type="text/javascript">
+						$(document).ready(function ($) {
+
+							// delegate calls to data-toggle="lightbox"
+							$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+								event.preventDefault();
+								return $(this).ekkoLightbox({
+									always_show_close: true
+								});
+							});
+
+						});
+					</script>
+    
+    
+            </div>
+
+            <div class="row">
+   				<h2 class="section-heading">vidéos </h2>
+   				<div class="separateur20"></div>
+					
+					<BOUCLE_video(DOCUMENTS){id_article}{extension==bin}>
+						#DESCRIPTIF
+					   
+					 </BOUCLE_video>
+
+
+            </div>
+            <!-- /.row -->
+
+       </BOUCLE_article>
+		<div class="separateur40"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="section-heading"  style="margin-bottom: 0px;">Commentaires</h2>
+				<hr class="section-heading-spacer" style="margin-bottom: 0px;">
+			</div>
+		</div>
+		<div class="separateur20"></div>
+		<div class="row">
+			<div class="col-md-2  col-sm-3 col-xs-12" style="padding:0 5px;">
+				<div class="team-member">
+					<img src="#CHEMIN{img/team/3.jpg}" class="img-responsive img-circle" alt="">
+					<h5>Diana Pertersen</h5>
+				</div>
+			</div>
+			<div  style="padding:0 5px;">
+				<div class="col-md-10 col-sm-10 col-xs-12"">
+						<h4>Titre commentaire</h4>
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-12"">
+					<p class="lead css909090">Et olim licet otiosae sint tribus pacataeque centuriae et nulla suffragiorum certamina set Pompiliani redierit securitas temporis, per omnes tamen quotquot sunt partes terrarum, ut domina suscipitur et regina et ubique patrum reverenda cum auctoritate canities populique Romani nomen circumspectum et verecundum.</p>
+				</div>
+
+				<div class="col-md-10 col-sm-10 col-xs-12 text-right"">
+					<p class="lead css909090">25 mars 2016</p>
+				</div>
+
+			</div>
+		</div>
+		<div class="separateur20"></div>
+		<div class="row">
+			<div class="col-md-2  col-sm-3 col-xs-12" style="padding:0 5px;">
+				<div class="team-member">
+					<img src="#CHEMIN{img/team/1.jpg}" class="img-responsive img-circle" alt="">
+					<h5>Diana Pertersen</h5>
+				</div>
+			</div>
+			<div  style="padding:0 5px;">
+				<div class="col-md-10 col-sm-10 col-xs-12"">
+						<h4>Titre commentaire</h4>
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-12"">
+					<p class="lead css909090">Et olim licet otiosae sint tribus pacataeque centuriae et nulla suffragiorum certamina set Pompiliani redierit securitas temporis, per omnes tamen quotquot sunt partes terrarum, ut domina suscipitur et regina et ubique patrum reverenda cum auctoritate canities populique Romani nomen circumspectum et verecundum.</p>
+				</div>
+
+				<div class="col-md-10 col-sm-10 col-xs-12 text-right"">
+					<p class="lead css909090">25 mars 2016</p>
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="separateur20"></div>
+			<div class="col-md-12">
+				<div align="right">
+					<button type="submit" class="btn btn-lg" style="background:#3E3A51; color:#fff; width:150px;">Commenter</button>
+				</div>
+			</div>
+		</div>
+		<div class="separateur40"></div>
+
+    </div>
+    <!-- /.container -->
+<INCLURE{fond=inc/footer}>
+
+</body>
+
+</html>

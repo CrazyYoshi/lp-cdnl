@@ -1,0 +1,10 @@
+/ecrire/*
+/tmp/*
+/local/*
+/prive/*
+/squelettes-dist/*
+<<<<<<< HEAD
+/IMG/distant/csl/*.tmp
+=======
+/IMG/distant/csl/*.tmp
+>>>>>>> bf4c111315662c8688ecea50237df6bf31203e21
