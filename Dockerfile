@@ -8,3 +8,5 @@ LABEL \
     Usage='docker run -d -p [WWW_HOST_PORT1]:80'
 COPY vayaterra.sql /usr/src/sqldump/
 COPY vayaterra /usr/share/nginx/html
+RUN rm -f /etc/nginx/sites-enabled/*
+COPY vayaterra.conf /etc/nginx/sites-enabled/vayaterra.conf
